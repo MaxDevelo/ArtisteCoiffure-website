@@ -3,6 +3,8 @@
 namespace App\Entity\Customer;
 
 use App\Repository\Customer\CustomerAddressRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerAddressRepository::class)]
@@ -24,6 +26,17 @@ class CustomerAddress
 
     #[ORM\Column(length: 255)]
     private ?string $country = null;
+
+    /**
+     * @var Collection<int, Customer>
+     */
+    #[ORM\ManyToMany(targetEntity: Customer::class, mappedBy: 'customer_addresses')]
+    private Collection $customers;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +87,33 @@ class CustomerAddress
     public function setCountry(string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Customer>
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): static
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers->add($customer);
+            $customer->addCustomerAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): static
+    {
+        if ($this->customers->removeElement($customer)) {
+            $customer->removeCustomerAddress($this);
+        }
 
         return $this;
     }

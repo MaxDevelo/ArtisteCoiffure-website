@@ -38,12 +38,19 @@ class Customer
     /**
      * @var Collection<int, Booking>
      */
-    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'customer')]
-    private Collection $bookings;
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'customers')]
+    private Collection $bookings_customer;
+
+    /**
+     * @var Collection<int, CustomerAddress>
+     */
+    #[ORM\ManyToMany(targetEntity: CustomerAddress::class, inversedBy: 'customers')]
+    private Collection $customer_addresses;
 
     public function __construct()
     {
-        $this->bookings = new ArrayCollection();
+        $this->bookings_customer = new ArrayCollection();
+        $this->customer_addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,29 +133,53 @@ class Customer
     /**
      * @return Collection<int, Booking>
      */
-    public function getBookings(): Collection
+    public function getBookingsCustomer(): Collection
     {
-        return $this->bookings;
+        return $this->bookings_customer;
     }
 
-    public function addBooking(Booking $booking): static
+    public function addBookingsCustomer(Booking $bookingsCustomer): static
     {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings->add($booking);
-            $booking->setCustomer($this);
+        if (!$this->bookings_customer->contains($bookingsCustomer)) {
+            $this->bookings_customer->add($bookingsCustomer);
+            $bookingsCustomer->setCustomers($this);
         }
 
         return $this;
     }
 
-    public function removeBooking(Booking $booking): static
+    public function removeBookingsCustomer(Booking $bookingsCustomer): static
     {
-        if ($this->bookings->removeElement($booking)) {
+        if ($this->bookings_customer->removeElement($bookingsCustomer)) {
             // set the owning side to null (unless already changed)
-            if ($booking->getCustomer() === $this) {
-                $booking->setCustomer(null);
+            if ($bookingsCustomer->getCustomers() === $this) {
+                $bookingsCustomer->setCustomers(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerAddress>
+     */
+    public function getCustomerAddresses(): Collection
+    {
+        return $this->customer_addresses;
+    }
+
+    public function addCustomerAddress(CustomerAddress $customerAddress): static
+    {
+        if (!$this->customer_addresses->contains($customerAddress)) {
+            $this->customer_addresses->add($customerAddress);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerAddress(CustomerAddress $customerAddress): static
+    {
+        $this->customer_addresses->removeElement($customerAddress);
 
         return $this;
     }

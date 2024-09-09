@@ -25,10 +25,10 @@ class Booking
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'bookings')]
-    private ?Customer $customer = null;
-
-    #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?Service $services = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bookings_customer')]
+    private ?Customer $customers = null;
 
     public function getId(): ?int
     {
@@ -71,18 +71,6 @@ class Booking
         return $this;
     }
 
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
     public function getServices(): ?Service
     {
         return $this->services;
@@ -91,6 +79,18 @@ class Booking
     public function setServices(?Service $services): static
     {
         $this->services = $services;
+
+        return $this;
+    }
+
+    public function getCustomers(): ?Customer
+    {
+        return $this->customers;
+    }
+
+    public function setCustomers(?Customer $customers): static
+    {
+        $this->customers = $customers;
 
         return $this;
     }
