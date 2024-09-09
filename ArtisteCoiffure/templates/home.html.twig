@@ -1,5 +1,11 @@
 {% include 'base.html.twig' %}
 
+{% include 'bundles/_header.html.twig' %}
+
 {% block body %}
-    <h1 class="text-center text-4xl mt-2">Home Page</h1>
+	<div class="flex-grow bg-stone-400">
+		<h1 class="text-center text-4xl mt-2">Home Page</h1>
+	</div>
 {% endblock %}
+
+{% include 'bundles/_footer.html.twig' %}
