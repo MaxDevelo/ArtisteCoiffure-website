@@ -3,9 +3,12 @@
 {% include 'bundles/_header.html.twig' %}
 
 {% block body %}
-	<div class="flex-grow bg-stone-400">
-		<h1 class="text-center text-4xl mt-2">Home Page</h1>
-	</div>
+<div class="relative flex-grow bg-stone-800 bg-cover bg-center h-screen">
+    <div class="absolute inset-0 bg-cover bg-center blur" style="background-image: url({{ asset('images/image_1.jpg') }});"></div>
+    <div class="relative mt-20 bg-stone-100 w-1/2 mx-auto rounded-xl bg-opacity-20 p-10">
+        <h1 class="text-center text-4xl mt-2">Bienvenue chez l'Artiste Coiffure</h1>
+    </div>
+</div>
 {% endblock %}
 
 {% include 'bundles/_footer.html.twig' %}
