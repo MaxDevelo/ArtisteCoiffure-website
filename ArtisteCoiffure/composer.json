@@ -21,6 +21,7 @@
         "symfony/maker-bundle": "^1.61",
         "symfony/monolog-bundle": "^3.0",
         "symfony/runtime": "6.4.*",
+        "symfony/security-bundle": "6.4.*",
         "symfony/twig-bundle": "6.4.*",
         "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "6.4.*",
